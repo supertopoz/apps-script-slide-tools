@@ -1,0 +1,31 @@
+<script>
+
+const errorDisplay = {
+
+  createErrorClose : function() {
+    var div = document.createElement('span');
+    div.id = "error-close";
+    div.innerHTML = 'X';
+    var message = document.getElementById('error-report').appendChild(div);
+    return div;
+  },
+  
+  hideErrorMessage : function () {
+    var element = document.getElementById('error-report');
+    element.innerHTML = '';
+    return element;
+  },
+  
+  appendErrorToDom : function (error){
+    var div = document.createElement('span');
+    div.id = "error-text";
+    div.innerHTML = error;
+    var message = document.getElementById('error-report').appendChild(div);
+    return message;
+  }
+
+}
+
+
+</script>
+

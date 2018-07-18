@@ -1,0 +1,75 @@
+<script>
+function textEditor() {
+
+  return {
+    __canvas: canvas,
+    __tmpgroup: {},
+
+    addText: function(incomingText, firstRender) {
+    
+    var firstText = {fontFamily: 'tahoma',
+          fontSize: 12,
+          left: 10,
+          top: 50,
+          myid: 'starter text',
+          objecttype: 'text',
+          editable: false,
+          selectable: false
+          };
+
+     var userText = {
+         fontFamily: 'tahoma',
+          fontSize: 40,
+          left: 40,
+          top: 200,
+          myid: newID,
+          objecttype: 'text',
+     }
+
+     var options = userText;
+     if(firstRender) options = firstText  
+      var newID = (new Date()).getTime().toString().substr(5);
+      if(incomingText){
+        var text = new fabric.IText(incomingText , options);     
+        text.left = 270/2 - (text.width/2)
+        this.__canvas.add(text);
+        this.addLayer(newID, 'text');
+      } else {
+      
+      }
+    },
+    
+    setObjectStyle: function(){      
+      fabric.Object.prototype.set({
+        transparentCorners: false,
+        cornerColor: 'rgba(102,153,255,0.5)',
+        cornerSize: 12,
+    })
+    },
+    
+    setTextParam: function(param, value) {
+      var obj = this.__canvas.getActiveObject();
+      if (obj) {
+        if (param == 'color') {
+          obj.setColor(value);
+        } else {
+          obj.set(param, value);
+        }
+        this.__canvas.renderAll();
+      }
+    },
+    setTextValue: function(value) {
+      var obj = this.__canvas.getActiveObject();
+      if (obj) {
+        obj.setText(value);
+        this.__canvas.renderAll();
+      }
+    },
+    addLayer: function() {
+
+    }
+
+  };
+}
+</script>
+

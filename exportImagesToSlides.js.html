@@ -1,0 +1,48 @@
+<script>
+ console.log('working')
+ const exportImagesToSlides = {
+ 
+    dataURL: function(){
+      var json = canvas.toJSON();
+      console.log(json);
+      // Could save the JSOn elsewhere and pull it back with an id... 
+      return canvas.toDataURL('image/png')
+    },
+    
+    error: function(e){
+      var target =  document.getElementById('report-error')     
+      target.innerHTML = e;
+      return target;
+    },
+    
+    addLoader: function(id){    
+      if(id) document.getElementById(id).className = 'mini-grid-square-loading';
+    },
+    
+    removeLoader : function(callBack, id){
+      if(id) document.getElementById(id).className = 'mini-grid-mini-square';   
+    },
+        
+    callGoogle: function (){
+     return google.script.run.withSuccessHandler(this.removeLoader).withFailureHandler(this.error)
+    },
+    
+    replaceImageInSlide: function(){
+      return this.callGoogle().replaceImageInSlide(this.dataURL())
+    },
+    
+    getGridDementions : function (id){
+      return id.slice(0,id.indexOf('-grid-select-')).replace('-','')
+    },
+    
+    getClickedSquareNumber : function (id){
+      return Number(id.slice(id.lastIndexOf('-') + 1));
+    },
+      
+    addImageAtGridLocation: function(id){    
+      this.addLoader(id)
+      this.callGoogle().withUserObject(id).insertImageToSlide(this.dataURL(), [...this.getGridDementions(id), this.getClickedSquareNumber(id)])
+    }  
+ }
+</script>
+

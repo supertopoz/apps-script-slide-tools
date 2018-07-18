@@ -1,0 +1,117 @@
+<style>
+
+#slide-selector {
+    position: absolute;
+    top: 0px;
+    padding: 5px;
+    display: grid;
+    grid-gap: 13px;
+    justify-items: center;
+    background: #0808086b;
+    width: 200px;
+    left: -220px; /* -220px*/
+    height: 500px;
+    grid-template-rows: 1fr 1fr 1fr 1fr 4fr;
+    z-index: 10;
+}
+
+div#mini-slide-heading {
+    color: white;
+    background: white;
+    color: black;
+    padding: 5px;
+    text-align: center;
+    width: 155px;
+}
+
+#slide-selector-button{
+    cursor: pointer;
+    background: white;
+    position: absolute;
+    width: 40px;
+    left: 0px;
+    top: 0px;
+    height: 42px;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: 1fr 2fr;
+    box-shadow: 2px 5px 15px 1px #9e9e9e8c;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+input[type="number"] {
+    width: 90px;
+    height: 29px;
+}
+
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+/*Page styles*/
+html { height: 100%; }
+
+.boxes {
+  margin: auto;  
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  width: 135px;
+  background: white; /* #484848;*/
+}
+
+#slide-list{
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 5px;
+  height: 400px;
+  overflow: auto;
+}
+
+/*Checkboxes styles*/
+input[type="checkbox"] { display: none; }
+
+input[type="checkbox"] + label {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 20px;
+  font: 14px/20px 'Open Sans', Arial, sans-serif;
+  color: #616161;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+input[type="checkbox"] + label:last-child { margin-bottom: 0; }
+
+input[type="checkbox"] + label:before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #616161;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: .6;
+  -webkit-transition: all .12s, border-color .08s;
+  transition: all .12s, border-color .08s;
+}
+
+input[type="checkbox"]:checked + label:before {
+  width: 10px;
+  top: -5px;
+  left: 5px;
+  border-radius: 0;
+  opacity: 1;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+</style>
+
+

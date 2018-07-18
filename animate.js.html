@@ -1,0 +1,21 @@
+<script>
+function animate(elementId, startPostion, endPostion, incrementation){
+    
+    var lastFrame = + new Date
+    var element = '';
+    var element = document.getElementById(elementId)        
+    var timer = setInterval(function() {
+      var now = + new Date      
+      var deltaT = now - lastFrame;
+      element.style.left = (startPostion += incrementation * deltaT / 16 ) + "px";      
+      lastFrame = now;
+      if(incrementation >0 && startPostion >= endPostion) clearInterval( timer );       
+      if(incrementation <0 && startPostion <= endPostion) clearInterval( timer );       
+    }, 16);
+
+}
+
+
+
+</script>
+

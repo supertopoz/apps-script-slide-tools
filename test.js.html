@@ -1,0 +1,290 @@
+<script>
+// MOCHA - test
+
+// UI
+mocha.setup('bdd')
+
+// CHAI
+var assert = chai.assert;
+var expect = chai.expect;
+var should = chai.should();
+
+// TESTS
+// Assertions
+describe("Assertions", function(){
+	var a = 1;
+    it("should", function(){
+      a.should.equal(1)
+  	})    
+  	it("expect", function(){
+      expect(a).to.equal(1);
+  	})
+  	it("assert", function(){
+      assert.equal(a, 1);
+  	})  
+})
+
+describe("export images to slide", function(){
+
+    it("should get a data URL from canvas", function(){
+      var url = exportImagesToSlides.dataURL();
+      var result = url.indexOf('data:image/png;base64') >= 0
+      result.should.equal(true)
+  	})
+  	it("should find a function for replacing images", function(){
+        var result = exportImagesToSlides.replaceImageInSlide; 
+        (typeof(result)).should.equals('function')
+	})
+    it("should find a function for inserting images", function(){
+        var result = exportImagesToSlides.addImageAtGridLocation; 
+        (typeof(result)).should.equals('function')
+	})
+    it("should extract the square that was click in the grid", function(){
+      var result = exportImagesToSlides.getClickedSquareNumber('3-2-grid-select-0'); 
+      (result).should.equals(0)
+    })
+    it("should extract the grid dimensions from the clicked square id", function(){
+      var result = exportImagesToSlides.getGridDementions('3-2-grid-select-0'); 
+      (result).should.equals('32')
+    })// addLoader
+    it("should check a loader css class is added to clicked grid square", function(){
+      var result = exportImagesToSlides.addLoader('3-2-grid-select-0'); 
+      //(result).should.equals('32')
+      expect(document.querySelector('#\\33-2-grid-select-0')).to.have.class('mini-grid-square-loading')
+    })
+    it("should check a loader css class is removed from a grid square", function(){
+      var result = exportImagesToSlides.removeLoader('callBack - place holder','3-2-grid-select-0'); 
+      //(result).should.equals('32')
+      expect(document.querySelector('#\\33-2-grid-select-0')).to.have.class('mini-grid-mini-square')
+    })
+})
+describe("handle errors for the user to see", function(){
+   it("should append an element to the dom for handling errors", function(){
+     var result = errorDisplay.appendErrorToDom('error');
+     expect(result).to.have.id('error-text')
+     expect(result).to.have.text('error')
+   })
+   it("should append a close button", function(){
+   var result = errorDisplay.createErrorClose();
+     expect(result).to.have.id('error-close')
+   })
+   it("should hide the error message", function(){
+     var result =  errorDisplay.hideErrorMessage();
+     expect(document.querySelector('#error-report')).to.be.empty
+   })
+    it("should contain a listen event for errror message close", function(){
+     var event = {};
+     event.target = {}
+     event.target.id = 'error-close';
+     var result =  listenForEvents(event);
+     expect(result).to.be.empty
+   })
+})
+
+describe("add imported images to canvas", function(done){
+    var globalElement = ''
+    beforeEach('adds 2', function(){
+    importImagesFromSlides.importMultipleSlideImages();
+    setTimeout(function(){
+      var element = document.getElementById('img-name-0');
+      element.value = 'example';
+      globalElement = element;      
+      setTimeout(function(done){
+        var event = {};
+        event.target = {};
+        event.target.id = 'img-0';
+        event.target.src = document.getElementById('img-0').src
+        var result = addImportedImageToCanvas.getImageToAdd(event);
+       },500)
+    }, 1500)
+	})
+	afterEach('sets example1 to 0', function(){
+		// runs after each test in this block
+	})
+   it("should detect an image was imported from a slide", function(done){
+       
+       setTimeout(function(){
+         var image = document.querySelector('#img-0');
+         console.log(image);
+         var src = image.src.indexOf('googleusercontent') >= 0;
+         console.log(src)
+         var width = image.width;
+         expect(src).to.equal(true);
+         expect(width).to.equal(125);
+         //expect(img).to.have.id()
+         done();
+       },1000)
+
+   })
+   it("should detect text added to an image card can be picked up", function(done){       
+       setTimeout(function(){
+         var titleInput = document.querySelector('#img-name-0');
+         var value = titleInput.value;
+         expect(value).to.equal('example');
+         done();
+       },1500)
+
+   })
+   it("should convert an image to base64", function(done){       
+       setTimeout(function(){
+         var image = document.querySelector('#img-0');
+         console.log(image);
+         var src = image.src
+         var base64Image = addImportedImageToCanvas.getBase64(src).then(function(result){
+         expect(result.indexOf('base64') >= 0).to.equal(true);
+         done();
+         });
+       },1000)
+
+   })
+})
+
+
+
+// Multiple specs
+//describe("Multiple specs", function() {
+//    it("should be true", function() {
+//        expect(true).to.be.true;
+//    });
+//    it("should be able to add 1 to 1", function() {
+//        expect(1+1).to.equal(2);
+//    });
+//});
+
+// Synchronous code
+//describe('Synchronous code', function(){
+//  describe('#indexOf()', function(){
+//    it('should return -1 when the value is not present', function(){
+//      expect([1,2,3].indexOf(5)).to.equal(-1);
+//      expect([1,2,3].indexOf(0)).to.equal(-1);
+//    })
+//  })
+//})
+
+// Asynchronous code
+//describe("Asynchronous code", function() {
+//	it("should be true - async", function(done) {
+//		setTimeout(function() {
+//			expect(true).to.be.true;
+//			done();
+//		}, 1000);
+//	})
+//})
+
+//describe('Asynchronous code', function(){
+//	describe('myNumber()', function(){
+//		it('should equal 3 - async', function(done){
+//			var testPerson = new Person();
+//			expect(testPerson.myNumber()).to.equal(3);
+//			done();
+//		})
+//	})
+//})
+
+// Throw an error
+//describe("Throw an error", function() {
+//	it("should throw a custom error - async", function(done) {
+//		var testPerson = new Person();
+//		testPerson.showAnError(function(err){
+//       		if (err) throw err;
+//        	done();
+//      	});
+//	})
+//})
+
+// Hooks
+//describe('hooks', function() {
+//	var example1 = 0;
+//
+//	beforeEach('adds 2', function(){
+//		// runs before each test in this block
+//		example1 += 1;
+//	})
+//
+//	afterEach('sets example1 to 0', function(){
+//		// runs after each test in this block
+//		example1 = 0;
+//	})
+//
+//	// test cases
+//	it("beforeEach() and afterEach()", function() {
+//		expect(example1).to.equal(1);
+//		example1 += 1;
+//	});	
+//
+//	it("resets variable between specs", function() {
+//		expect(example1).to.equal(1);
+//	});
+//
+//
+//	var example2;
+//
+//
+//	before('sets variables to 0', function() {
+//	// runs before all tests in this block
+//		example2 = 1;
+//
+//	})
+//
+//	after('sets variables to their initial values', function(){
+//		// runs after all tests in this block
+//		example2 = 0;
+//	})
+//
+//	// test cases
+//	it("before() and after()", function() {
+//		expect(example1).to.equal(1);
+//		example2 += 1;
+//	})
+//
+//	it("does not reset variable between specs", function() {
+//		expect(example2).to.equal(2);
+//	})
+//})
+
+
+// Pending tests
+describe('Pending tests', function(){
+    it('true is true'
+    	// , function(){
+    	// expect(true).to.equal(true);
+    	// }
+    )
+})
+
+
+// Exclusive tests
+//describe("Exclusive tests", function(){
+//	var example1 = 1;
+//	var example2 = 2;
+//
+//	it("should equal 1", function(){
+//		expect(example1).to.equal(1);
+//	})
+//	// // run only the specified suite or test by appending .only() to the call
+//	// it.only("should equal 2", function(){
+//	// 	expect(example2).to.equal(2);
+//	// })
+//})
+
+
+//// Inclusive tests
+//describe("Exclusive tests", function(){
+//	var example1 = 1;
+//	var example2 = 2;
+//
+//	it("should equal 1", function(){
+//		expect(example1).to.equal(1);
+//	})
+//	// by appending .skip() you may tell Mocha to simply ignore these suite(s) and test-case(s)
+//	it.skip("should equal 2", function(){
+//		expect(example2).to.equal(2);
+//	})
+//})
+
+// RUN MOCHA
+mocha.run()
+
+
+</script>
+

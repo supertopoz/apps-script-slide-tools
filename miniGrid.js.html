@@ -1,0 +1,92 @@
+<script>
+ 
+var miniGrid = {
+
+  gridSizes: [[3, 2],[5, 3],[6, 4]],
+  
+  gridElement : function() { 
+    return document.getElementById('mini-grid-menu')
+  },
+  
+  html: { 
+    nodes: [],
+    dimensions : 1
+  },
+  gridSize: [],
+  
+  setElementStyle: function(){
+    this.gridElement().style.gridTemplateColumns = `repeat(${this.gridSize[0]}, 1fr)`
+  },
+  
+  clearTarget: function(){
+    this.gridElement().innerHTML = '';
+  },
+  
+  appendNodes: function(){
+  
+  
+    var heading = document.createElement('div');
+    heading.id = 'mini-grid-heading'
+    heading.innerHTML = 'Choose Location to Insert Main Image into Current Slide';
+     document.getElementById('mini-grid-menu').appendChild(heading);
+    this.gridSquares.forEach(function(grid){
+      var element = document.createElement('div');
+      element.className = 'mini-grid-grid-box'
+   //   element.style.border = '1px solid red' 
+      element.style.display = 'grid',
+      element.style.gridGap = ''
+      element.style.gridTemplateColumns = `repeat(${grid.dimensions}, 1fr)`
+      grid.nodes.forEach(function(node){
+        element.appendChild(node)
+      })
+      document.getElementById('mini-grid-menu').appendChild(element);    
+       element = '';
+    })
+     var replaceNode = document.createElement('div');
+     replaceNode.onclick = function () {
+         return exportImagesToSlides.replaceImageInSlide()
+      }
+     replaceNode.innerHTML = 'Replace Selected'
+     replaceNode.className = 'mini-grid-replace-selected'
+     document.getElementById('mini-grid-menu').appendChild(replaceNode);
+  },
+    
+  createElement: function(gridSize, index){
+  
+    var squareSize = (60 /  gridSize[1]) -3 + 'px';
+    var element = document.createElement('div')
+      element.className = 'mini-grid-mini-square';
+//      element.style.width = squareSize;
+//      element.style.height = squareSize;
+      element.style.border = '1px solid lightgrey';
+      element.id =  gridSize.join('-') + '-grid-select-' + index
+    return element;
+  },
+  
+  gridSquares : [],
+  
+  updateGrid: function(){  
+    this.html = { nodes: [],dimensions : 1};
+    this.gridSquares = [];
+    var that = this
+    this.gridSizes.forEach(function(item){    
+      for(var i = 0; i < item.reduce((a,b) => a*b); i++){ 
+        that.html.nodes.push(that.createElement(item, i));
+        that.html.dimensions = item[0];
+      }
+      that.gridSquares.push(that.html);
+      that.html = { nodes: [],dimensions : 1};
+    })
+ 
+    
+    this.clearTarget();
+    this.appendNodes();
+    this.setElementStyle();
+  }
+  
+}
+
+
+
+
+</script>

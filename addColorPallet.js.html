@@ -1,0 +1,34 @@
+<script>
+
+
+const addColorPallet = {
+        
+      app : function() {
+       return textEditor()
+      },
+                 
+      colors: ["white","orange","blue","green","yellow","pink","purple","black","red","yellow","brown","teal"],
+      
+      appendColorPallet : function(){
+      
+      return document.getElementById('editor').innerHTML = this.colors.reduce(function(arc,item){
+          arc += `  <div class="color-picker" id="color-${item}"></div>`
+          return arc
+          }, '') + 
+          `<div id="add-text" class="color-picker">TEXT</div>`
+      },
+      
+      changeColor: function (event){
+         var color = event.target.id.replace('color-','');
+         return this.app().setTextParam('color',  color);
+      },
+
+      insertFreeText: function(){
+          this.app().addText('Click Me!');
+          this.app().setObjectStyle();
+      }    
+}
+
+
+</script>
+

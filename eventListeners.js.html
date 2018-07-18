@@ -1,0 +1,61 @@
+<script>
+document.addEventListener("DOMContentLoaded", function(event) {
+
+  canvas = new fabric.Canvas('canvas',{
+  preserveObjectStacking: true,
+  backgroundColor: 'white',
+  });
+  textEditor().addText('1. Import images from Slide \n2. Add Titles (click "Tab" to jump to next title )\n3. Click images to add to this editor \n4. Edit title size, color and position \n5. Export edited image to slides', true );  
+  textEditor = textEditor();
+  addColorPallet.appendColorPallet();  
+  miniGrid.updateGrid();
+  animate('slide-selector', -210, 0, 10); 
+  importImagesFromSlides.getAllslides(); 
+});
+
+
+var theParent = document.querySelector("#main-interface");
+theParent.addEventListener('click', listenForEvents, false) 
+
+function listenForEvents (event) {
+  //event.stopPropagation();
+  const id = event.target.id
+  if(id.indexOf('grid-select-') >=0) return exportImagesToSlides.addImageAtGridLocation(id); 
+  if(id.indexOf('slide-selector-button') >= 0) {
+      animate('slide-selector', -210, 0, 10); 
+      importImagesFromSlides.getAllslides(); 
+      event.stopPropagation()
+      return
+  };
+  if(id.indexOf('color-') >=0) return addColorPallet.changeColor(event); 
+  if(id.indexOf('add-text') >=0) return addColorPallet.insertFreeText(event);
+  if(id.indexOf('img') >= 0 && id.indexOf('name') === -1 ) return addImportedImageToCanvas.getImageToAdd(event);
+  if(id.indexOf('mini-grid-icon') >= 0) return animate('mini-grid-menu', -210, 0, 10);
+  if(id.indexOf('error-close') >= 0) return errorDisplay.hideErrorMessage(); 
+};
+
+document.addEventListener('change', function(event){
+  if(event.target.id.indexOf('box-') >= 0) importImagesFromSlides.importMultipleSlideImages(); event.stopPropagation();
+})
+
+document.getElementById('mini-grid-menu').addEventListener("mouseleave", function(event){    
+   animate('mini-grid-menu', 0, -210, -10)
+//   animate('mini-grid-icon', -51,-5, 10)
+})
+
+document.getElementById('slide-selector').addEventListener("mouseleave", function(event){ 
+   animate('slide-selector', 0, -210, -10)
+//   animate('mini-grid-icon', -51,-5, 10)
+   importImagesFromSlides.getAllslides(); 
+})
+
+document.addEventListener("keydown", function(event){
+  deleteCanvasElement(event)
+});
+
+function deleteCanvasElement(event){
+   if (event.keyCode === 8 || event.keyCode === 46){
+    if(!canvas.getActiveObject().isEditing) canvas.remove(canvas.getActiveObject())
+   }
+}
+</script>

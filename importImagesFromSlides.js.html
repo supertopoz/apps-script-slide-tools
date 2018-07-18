@@ -1,0 +1,79 @@
+<script>
+var canvas = ''
+var app = '';
+
+const importImagesFromSlides = {
+
+
+      createLabel : function(slideNum){
+        var label = document.createElement('label');
+        label.setAttribute("for", 'box-' + slideNum);
+        label.innerHTML = "Slide " + slideNum;
+        return label
+      },
+      
+      createInput : function(slideNum){
+        var input = document.createElement('input');
+          input.value = slideNum;
+          input.type = 'checkbox';
+          input.id = 'box-' + slideNum
+         return input
+      },
+      
+      createRootSlideElement: function(){
+        var div = document.createElement('div');
+        div.className = 'boxes'
+        return div
+      },
+      
+      addSlideList: function(selectSlides){
+        var slideList = document.getElementById("slide-list")
+        slideList.innerHTML = '';
+        var start = 0;
+        while (start < selectSlides){
+          var element = this.createRootSlideElement()
+          element.appendChild(this.createInput(start + 1))
+          element.appendChild(this.createLabel(start + 1))
+          slideList.appendChild(element)
+          start ++
+        }
+      },
+      
+      importImages : function(slideNumber) {  
+        google.script.run.withSuccessHandler(this.addImagesToList).withFailureHandler(error).getImagesFromSlide(slideNumber);
+      },
+            
+      getAllslides: function(){
+         google.script.run.withSuccessHandler(this.addSlideList.bind(this)).withFailureHandler(error).getSlideCount();
+      },      
+            
+      importMultipleSlideImages : function(){
+        var array = []
+        var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+        
+        checkboxes.forEach(function(item){
+          array.push(item.value);
+        });
+        if(array.length === 0) array = ['1'];
+        this.importImages(array)        
+      },
+      
+      loaded: function(event){
+        document.getElementById(event.id).parentElement.style.background = 'none';;
+      },
+    
+      addImagesToList : function (images){
+        return document.getElementById('images').innerHTML = images.reduce(function(arc, url, index){
+            arc += `<div class="image-select">
+                      <img onload="importImagesFromSlides.loaded(this)" alt="loading" id="img-${index}" src='${url}' width="125">
+                      <div class="image-name">
+                        <input id="img-name-${index}"  type="text" placeholder="add title..." />
+                      </div>
+                    </div>`
+          return arc;
+        },'')
+      }
+      
+}
+function error(e){ alert(e)}
+</script>

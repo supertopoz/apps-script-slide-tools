@@ -1,0 +1,60 @@
+<script>
+const addImportedImageToCanvas = {
+
+   getText : function(clickedImage){
+     var idInputElement = "img-name-"+ clickedImage.target.id.replace('img-','');
+     if(document.getElementById(idInputElement)) this.text = document.getElementById(idInputElement).value;
+     return this.text;
+   },
+
+   getImageToAdd : function(clickedImage){
+     console.log(clickedImage)
+     this.getText(clickedImage);
+     this.prepareImageForCanvas(clickedImage.target.src);
+     return this.text;
+   }, 
+   
+   prepareImageForCanvas : function(src){
+      var that = this;
+      this.getBase64(src).then(function(result){
+        const element = document.createElement('img');
+        element.src = result;
+        that.addImageToCanvas(element);
+      })
+    }, 
+    
+    text: '',
+    
+    
+    addImageToCanvas: function(image){ 
+      var that = this;
+      fabric.Image.fromURL(image.src, function(img) {    
+        img.set({ left: 0, top:0}).scale(270/image.width).applyFilters();
+        canvas.clear().add(img);        
+        textEditor.addText(that.text);
+        textEditor.setObjectStyle();
+      }); 
+    }, 
+    getBase64 : function(url){
+      var that = this;
+      return new Promise(function (resolve, reject){
+        var xmlHTTP = new XMLHttpRequest();
+          xmlHTTP.open('GET', url, true);
+          xmlHTTP.responseType = 'arraybuffer';
+          xmlHTTP.onload = function(e) {        
+            var dataURL="data:image/png;base64," + that.createB64String(this.response);
+            resolve(dataURL);
+        };
+        xmlHTTP.send();
+      })
+    },
+    
+    createB64String: function (returnedData){
+     return btoa(new Uint8Array(returnedData).reduce(function (data, byte) {
+        return data + String.fromCharCode(byte);
+      }, ''));    
+    } 
+}
+
+
+</script>

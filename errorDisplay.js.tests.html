@@ -1,0 +1,27 @@
+<script>
+
+describe("handle errors for the user to see", function(){
+   it("should append an element to the dom for handling errors", function(){
+     var result = errorDisplay.appendErrorToDom('error');
+     expect(result).to.have.id('error-text')
+     expect(result).to.have.text('error')
+   })
+   it("should append a close button", function(){
+   var result = errorDisplay.createErrorClose();
+     expect(result).to.have.id('error-close')
+   })
+   it("should hide the error message", function(){
+     var result =  errorDisplay.hideErrorMessage();
+     expect(document.querySelector('#error-report')).to.be.empty
+   })
+    it("should contain a listen event for errror message close", function(){
+     var event = {};
+     event.target = {}
+     event.target.id = 'error-close';
+     var result =  listenForEvents(event);
+     expect(result).to.be.empty
+   })
+})
+
+</script>
+

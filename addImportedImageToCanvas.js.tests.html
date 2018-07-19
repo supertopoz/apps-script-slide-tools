@@ -1,0 +1,88 @@
+<script>
+describe.skip("add imported images to canvas", function(done){
+    var globalElement = ''
+    beforeEach('adds 2', function(){
+    importImagesFromSlides.importMultipleSlideImages();
+    setTimeout(function(){
+      var element = document.getElementById('img-name-0');
+      element.value = 'example';
+      globalElement = element;      
+      setTimeout(function(done){
+        var event = {};
+        event.target = {};
+        event.target.id = 'img-0';
+        event.target.src = document.getElementById('img-0').src
+        var result = addImportedImageToCanvas.getImageToAdd(event);
+       },500)
+    }, 1500)
+	})
+	after('sets example1 to 0', function(){
+		// runs after each test in this block
+        var imageHolder = document.getElementById('images');
+        imageHolder.innerHTML = '';
+        setTimeout(function(){
+         canvas.clear();
+        },1000)
+       
+        //textEditor().addText('1. Import images from Slide \n2. Add Titles (click "Tab" to jump to next title )\n3. Click images to add to this editor \n4. Edit title size, color and position \n5. Export edited image to slides', true );  
+	})
+   it("should detect an image was imported from a slide", function(done){
+       
+       setTimeout(function(){
+         var image = document.querySelector('#img-0');
+         console.log(image);
+         var src = image.src.indexOf('googleusercontent') >= 0;
+         console.log(src)
+         var width = image.width;
+         expect(src).to.equal(true);
+         expect(width).to.equal(125);
+         //expect(img).to.have.id()
+         done();
+       },1000)
+
+   })
+   it("should detect text added to an image card can be picked up", function(done){       
+       setTimeout(function(){
+         var titleInput = document.querySelector('#img-name-0');
+         var value = titleInput.value;
+         expect(value).to.equal('example');
+         done();
+       },1500)
+
+   })
+   it("should convert an image to base64", function(done){       
+       setTimeout(function(){
+         var image = document.querySelector('#img-0');
+         console.log(image);
+         var src = image.src
+         var base64Image = addImportedImageToCanvas.getBase64(src).then(function(result){
+         expect(result.indexOf('base64') >= 0).to.equal(true);
+         done();
+         });
+       },1000)
+   })
+   it("should check an image is added to the canvas", function(done){       
+       setTimeout(function(){
+         var canvasImage = canvas.toJSON().objects[0];
+         var type = canvasImage.type;
+         var src = canvasImage.src;
+         expect(type).to.equal('image');
+         expect(src.indexOf('base64') >= 0).to.equal(true)
+         done();
+       },1000)
+   })
+   it("should check text is added to the canvas", function(done){       
+       setTimeout(function(){
+         var canvasImage = canvas.toJSON().objects[1];
+         console.log(canvasImage)
+         var type = canvasImage.type;
+         var text = canvasImage.text;
+         expect(type).to.equal('i-text');
+         expect(text).to.equal('example')
+         done();
+       },1000)
+   })
+})
+
+
+</script>

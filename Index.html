@@ -40,20 +40,33 @@
 		</div>
 	</div>
      <div id="mocha"></div>
-  <?!= include('importImagesFromSlides.js'); ?>
-  <?!= include('animate.js'); ?>
-  <?!= include('errorDisplay.css'); ?>
-  <?!= include('errorDisplay.js'); ?>
-  <?!= include('eventListeners.js'); ?>
-  <?!= include('exportImagesToSlides.js'); ?>
-  <?!= include('importImagesFromSlides.css'); ?>
-  <?!= include('addImportedImageToCanvas.js'); ?>
-  <?!= include('addColorPallet.js'); ?>
   <?!= include('addColorPallet.css'); ?>
-  <?!= include('miniGrid.js'); ?>
+  <?!= include('addColorPallet.js'); ?>
+  <?!= include('addImportedImageToCanvas.js'); ?> // Tests exist
+  <?!= include('animate.js'); ?>
+ 
+  <?!= include('errorDisplay.css'); ?>
+  <?!= include('errorDisplay.js'); ?> // Tests exist
+  <?!= include('eventListeners.js'); ?>
+  
+  <?!= include('exportImagesToSlides.js'); ?> // Tests exist
+
+  <?!= include('importImagesFromSlides.css'); ?>
+  <?!= include('importImagesFromSlides.js'); ?>
+
   <?!= include('miniGrid.css'); ?>
+  <?!= include('miniGrid.js'); ?>
+  
+  <?!= include('slideSelector.css'); ?>
+  
   <?!= include('textEditor.js'); ?>
-   <?!= include('slideSelector.css'); ?>
-   <?!= include('test.js'); ?>
+
+  
+  <!-- Tests --> 
+  <?!= include('test.js'); ?>
+  <?!= include('exportImagesToSlides.js.tests'); ?>
+  <?!= include('errorDisplay.js.tests'); ?>
+  <?!= include('addImportedImageToCanvas.js.tests'); ?>
+    <?!= include('miniGrid.js.tests'); ?>
 </body>
 </html>

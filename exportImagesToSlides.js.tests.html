@@ -1,0 +1,36 @@
+<script>
+describe("export images to slide", function(){
+
+    it("should get a data URL from canvas", function(){
+      var url = exportImagesToSlides.dataURL();
+      var result = url.indexOf('data:image/png;base64') >= 0
+      result.should.equal(true)
+  	})
+  	it("should find a function for replacing images", function(){
+        var result = exportImagesToSlides.replaceImageInSlide; 
+        (typeof(result)).should.equals('function')
+	})
+    it("should find a function for inserting images", function(){
+        var result = exportImagesToSlides.addImageAtGridLocation; 
+        (typeof(result)).should.equals('function')
+	})
+    it("should extract the square that was click in the grid", function(){
+      var result = exportImagesToSlides.getClickedSquareNumber('3-2-grid-select-0'); 
+      (result).should.equals(0)
+    })
+    it("should extract the grid dimensions from the clicked square id", function(){
+      var result = exportImagesToSlides.getGridDementions('3-2-grid-select-0'); 
+      (result).should.equals('32')
+    })// addLoader
+    it("should check a loader css class is added to clicked grid square", function(){
+      var result = exportImagesToSlides.addLoader('3-2-grid-select-0'); 
+      //(result).should.equals('32')
+      expect(document.querySelector('#\\33-2-grid-select-0')).to.have.class('mini-grid-square-loading')
+    })
+    it("should check a loader css class is removed from a grid square", function(){
+      var result = exportImagesToSlides.removeLoader('callBack - place holder','3-2-grid-select-0'); 
+      //(result).should.equals('32')
+      expect(document.querySelector('#\\33-2-grid-select-0')).to.have.class('mini-grid-mini-square')
+    })
+})
+</script>

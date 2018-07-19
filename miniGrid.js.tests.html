@@ -1,9 +1,4 @@
 <script>
-// MOCHA - test
-
-// UI
-mocha.setup('bdd')
-
 // CHAI
 var assert = chai.assert;
 var expect = chai.expect;
@@ -11,17 +6,37 @@ var should = chai.should();
 
 // TESTS
 // Assertions
-describe("Assertions", function(){
+describe("Add mini grid elements to application", function(){
+   before('adds 2', function(){
+     var element = document.getElementById('mini-grid-menu');
+     while (element.firstChild) {
+        element.firstChild.remove();     
+     }
+     miniGrid.appendNodes();
+   });
 	var a = 1;
-    it("should", function(){
-      a.should.equal(1)
+    it("should check a heading element is in the mini grid", function(){    
+      var heading = document.getElementById('mini-grid-heading');
+      expect(heading).to.have.id('mini-grid-heading');
+      expect(heading).to.have.text('Choose Location to Insert Main Image into Current Slide');
   	})    
-  	it("expect", function(){
-      expect(a).to.equal(1);
+    it("should check all mini grid items are rendered", function(){    
+      var elements = document.getElementById('mini-grid-menu');
+      expect(miniGrid.gridSizes.length).to.equal(3);
+      expect(elements).to.have.length(5);
+  	}) 
+    it("should check all mini grids children are divs", function(){    
+      var elements = document.getElementById('mini-grid-menu');
+      expect(elements).to.have.length.descendant('div');
+  	}) 
+    it("should check click listener is added to grid elements", function(){    
+      var event = {};
+      event.target = {};
+      event.target.id = '3-2-grid-select-1';
+      var result = listenForEvents(event);
+      console.log(result)
+      expect(result.indexOf('working') >= 0).to.equal(true);
   	})
-  	it("assert", function(){
-      assert.equal(a, 1);
-  	})  
 })
 
 
@@ -173,8 +188,7 @@ describe('Pending tests', function(){
 //})
 
 // RUN MOCHA
-mocha.run()
+
 
 
 </script>
-

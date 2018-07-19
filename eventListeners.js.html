@@ -20,7 +20,9 @@ theParent.addEventListener('click', listenForEvents, false)
 function listenForEvents (event) {
   //event.stopPropagation();
   const id = event.target.id
-  if(id.indexOf('grid-select-') >=0) return exportImagesToSlides.addImageAtGridLocation(id); 
+  
+  if(id.indexOf('grid-select-') >=0) return exportImagesToSlides.addImageAtGridLocation(id) + ' working'; 
+  
   if(id.indexOf('slide-selector-button') >= 0) {
       animate('slide-selector', -210, 0, 10); 
       importImagesFromSlides.getAllslides(); 

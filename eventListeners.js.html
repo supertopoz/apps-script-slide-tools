@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   addColorPallet.appendColorPallet();  
   miniGrid.updateGrid();
   animate('slide-selector', -210, 0, 10); 
-  importImagesFromSlides.getAllslides(); 
+  importImagesFromSlides.getSlideCount(); 
 });
 
 
@@ -25,7 +25,7 @@ function listenForEvents (event) {
   
   if(id.indexOf('slide-selector-button') >= 0) {
       animate('slide-selector', -210, 0, 10); 
-      importImagesFromSlides.getAllslides(); 
+      importImagesFromSlides.getSlideCount(); 
       event.stopPropagation()
       return
   };
@@ -37,7 +37,7 @@ function listenForEvents (event) {
 };
 
 document.addEventListener('change', function(event){
-  if(event.target.id.indexOf('box-') >= 0) importImagesFromSlides.importMultipleSlideImages(); event.stopPropagation();
+  if(event.target.id.indexOf('box-') >= 0) importImagesFromSlides.detectSlidesToImportImagesFrom(); event.stopPropagation();
 })
 
 document.getElementById('mini-grid-menu').addEventListener("mouseleave", function(event){    
@@ -48,7 +48,7 @@ document.getElementById('mini-grid-menu').addEventListener("mouseleave", functio
 document.getElementById('slide-selector').addEventListener("mouseleave", function(event){ 
    animate('slide-selector', 0, -210, -10)
 //   animate('mini-grid-icon', -51,-5, 10)
-   importImagesFromSlides.getAllslides(); 
+   importImagesFromSlides.getSlideCount(); 
 })
 
 document.addEventListener("keydown", function(event){

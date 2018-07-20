@@ -26,36 +26,42 @@ const importImagesFromSlides = {
         return div
       },
       
-      addSlideList: function(selectSlides){
+      addSlideList: function(){
         var slideList = document.getElementById("slide-list")
         slideList.innerHTML = '';
         var start = 0;
-        while (start < selectSlides){
+        while (start < this.slideCount){
           var element = this.createRootSlideElement()
           element.appendChild(this.createInput(start + 1))
           element.appendChild(this.createLabel(start + 1))
           slideList.appendChild(element)
           start ++
         }
+        return slideList;
       },
       
+      slideCount: 1,
+      
+      getSlideCount: function(){         
+         var processSlideCount = function(slideCount){
+           this.slideCount = slideCount
+           this.addSlideList()         
+           return slideCount
+         }.bind(this);         
+         google.script.run.withSuccessHandler(processSlideCount).withFailureHandler(errorDisplay).getSlideCount();
+      },
+
       importImages : function(slideNumber) {  
-        google.script.run.withSuccessHandler(this.addImagesToList).withFailureHandler(error).getImagesFromSlide(slideNumber);
+        google.script.run.withSuccessHandler(this.addImagesToList).withFailureHandler(errorDisplay).getImagesFromSlide(slideNumber);
       },
             
-      getAllslides: function(){
-         google.script.run.withSuccessHandler(this.addSlideList.bind(this)).withFailureHandler(error).getSlideCount();
-      },      
-            
-      importMultipleSlideImages : function(){
+      detectSlidesToImportImagesFrom : function(){
         var array = []
-        var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
-        
-        checkboxes.forEach(function(item){
-          array.push(item.value);
-        });
-        if(array.length === 0) array = ['1'];
-        this.importImages(array)        
+         document.querySelectorAll('input[type=checkbox]:checked')
+         .forEach(function(item){ array.push(item.value)});       
+        if(!array.length) array = ['1'];
+        this.importImages(array)   
+        return array;
       },
       
       loaded: function(event){
@@ -63,9 +69,10 @@ const importImagesFromSlides = {
       },
     
       addImagesToList : function (images){
+        console.log(images)
         return document.getElementById('images').innerHTML = images.reduce(function(arc, url, index){
             arc += `<div class="image-select">
-                      <img onload="importImagesFromSlides.loaded(this)" alt="loading" id="img-${index}" src='${url}' width="125">
+                      <img onload="importImagesFromSlides.loaded(this)" alt="loading" id="img-${index}" src="${url}" width="125">
                       <div class="image-name">
                         <input id="img-name-${index}"  type="text" placeholder="add title..." />
                       </div>
@@ -75,5 +82,5 @@ const importImagesFromSlides = {
       }
       
 }
-function error(e){ alert(e)}
+
 </script>

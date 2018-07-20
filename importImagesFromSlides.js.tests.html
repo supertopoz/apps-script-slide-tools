@@ -1,0 +1,65 @@
+<script>
+//createLabel
+//createInput
+//createRootSlideElement
+//addSlideList
+//importImages
+//getSlideCount
+//importMultipleSlideImages
+//loaded
+//addImagesToList
+describe("Import images from slides with menu and image section. ", function(){
+    before('get slide list', function(){
+      importImagesFromSlides.getSlideCount();
+    })
+    it("should detect how many slides are in a document", function(done){
+      
+      setTimeout(function(){
+      var result = importImagesFromSlides.slideCount;
+       expect(result).to.equal(3)
+       done();
+      },1500)
+     
+    });
+    it("should create a lable for each slide in the document", function(){
+      var result = importImagesFromSlides.createLabel(1);
+      expect(result).to.have.text('Slide 1');
+      expect(result).to.have.attr('for');
+    });
+    it("should create a checkbox for each slide in the document", function(){
+     var result = importImagesFromSlides.createInput(1);
+      expect(result).to.have.id('box-1');
+      expect(result).to.have.value('1');
+      expect(result).to.have.match('[type="checkbox"]');
+    });
+    it("should import all images in a slide when a checkbox is clicked", function(){
+      var result = importImagesFromSlides.detectSlidesToImportImagesFrom();
+      expect(JSON.stringify(result)).to.equal(JSON.stringify(['1']));
+    });
+    it("should empty the output when a checkbox is clicked ready for the new images");
+    it("should append multiple checkboxes and labels to the dom", function(){
+      var result = importImagesFromSlides.addSlideList();
+      console.log(result);
+      var html = '<div class="boxes"><input type="checkbox" value="1" id="box-1"><label for="box-1">Slide 1</label></div><div class="boxes"><input type="checkbox" value="2" id="box-2"><label for="box-2">Slide 2</label></div><div class="boxes"><input type="checkbox" value="3" id="box-3"><label for="box-3">Slide 3</label></div>';
+      expect(result).to.have.length(3);
+      expect(result).to.have.html(html);
+    });
+    it("should import a single selected image as needed");
+    it("should be able to append imported images to the dom as a card", function(){
+      var images = ["https://lh6.googleusercontent.com/3H_2ghLnguJJ9fvj…-i2yO-tY-rYYRkJzgmJMYsPFB_-cWDxS2HrdoqBOF329X3__Y"];
+      var result = importImagesFromSlides.addImagesToList(images);
+      var html = `<div class="image-select">
+                      <img onload="importImagesFromSlides.loaded(this)" alt="loading" id="img-0" src="https://lh6.googleusercontent.com/3H_2ghLnguJJ9fvj…-i2yO-tY-rYYRkJzgmJMYsPFB_-cWDxS2HrdoqBOF329X3__Y" width="125">
+                      <div class="image-name">
+                        <input id="img-name-0"  type="text" placeholder="add title..." />
+                      </div>
+                    </div>`
+      console.log(result)
+      expect(result.length).to.equal(436);
+      expect(result).to.equal(html)
+    });
+    it("should hide a loading gif when an image has finished loading");
+});
+
+
+</script>

@@ -70,11 +70,12 @@ const importImagesFromSlides = {
     
       addImagesToList : function (images){
         console.log(images)
-        return document.getElementById('images').innerHTML = images.reduce(function(arc, url, index){
+        return document.getElementById('images').innerHTML = images.reduce(function(arc, image, index){
+            console.log(image)
             arc += `<div class="image-select">
-                      <img onload="importImagesFromSlides.loaded(this)" alt="loading" id="img-${index}" src="${url}" width="125">
+                      <img data-forCanvas ="${image.data}"  onload="importImagesFromSlides.loaded(this)" alt="loading" id="img-${index}" src="${image.url}" width="125">
                       <div class="image-name">
-                        <input id="img-name-${index}"  type="text" placeholder="add title..." />
+                        <input value="${image.title}" id="img-name-${index}"  type="text" placeholder="add title..." />
                       </div>
                     </div>`
           return arc;

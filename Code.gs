@@ -83,7 +83,7 @@ function getSlideCount(){
 
 function getImagesFromSlide(slideNumbers) {
 //  var slideNumbers = [1, 2]
-  var urls = [];
+  var images = [];
   var from = 0;
   var to = slideNumbers.length
   while(from < to){
@@ -92,16 +92,22 @@ function getImagesFromSlide(slideNumbers) {
   var elements = slides.getSlides()[Number(slideNumbers[from]) -1].getPageElements();
   Logger.log(from +' element '+elements)
   for (var i = 0; i < elements.length; i ++){
-    try {
+    var image = {};
+    
+    try {    
      var element = elements[i].asImage()
-     urls.push(element.getContentUrl())
+     image.url = element.getContentUrl();
+     image.title = element.getTitle();
+     image.data = element.getDescription();
+     images.push(image);
+     image = {};
     } catch (e){
      Logger.log(e)
     }
   }
   from ++
   }
-  return urls
+  return images
 }
 
 var positionData = {

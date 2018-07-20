@@ -52,7 +52,7 @@ const importImagesFromSlides = {
       },
 
       importImages : function(slideNumber) {  
-        google.script.run.withSuccessHandler(this.addImagesToList).withFailureHandler(errorDisplay).getImagesFromSlide(slideNumber);
+        google.script.run.withSuccessHandler(this.addImagesToList.bind(this)).withFailureHandler(errorDisplay).getImagesFromSlide(slideNumber);
       },
             
       detectSlidesToImportImagesFrom : function(){
@@ -68,14 +68,35 @@ const importImagesFromSlides = {
         document.getElementById(event.id).parentElement.style.background = 'none';;
       },
     
+      createImageElement : function(image, index){
+        return `<img data-SlideImageId="${image.id}" data-forCanvas ="${image.data}" onload="importImagesFromSlides.loaded(this)" alt="loading" id="img-${index}" src="${image.url}" width="125">`;
+      },
+      
+      createInputElement : function(image, index){
+        var title = '';
+        if(image.title) title = image.title;
+        return ` <input data-originalTitle="${image.title}" data-slideImageId="${image.id}" onfocusout="importImagesFromSlides.addTitleToSlideImage(this)" value="${image.title}" id="img-name-${index}" type="text" placeholder="add title..." />`
+      },
+    
+      addTitleToSlideImage :  function(event){        
+        var currentTitle = event.value;
+        var originalTitle = event.getAttribute('data-originalTitle');
+        var imageSlideId = event.getAttribute('data-slideImageId');
+        if(currentTitle !== originalTitle){
+          google.script.run.withSuccessHandler(function(e){console.log(e)}).withFailureHandler(errorDisplay).updateImageData(imageSlideId, currentTitle);
+        }
+        // one listen for event and check image teck has correct data. 
+        // check that the app can send and update back to the correct slide. 
+        // image contains the slide. 
+      },
+    
       addImagesToList : function (images){
-        console.log(images)
+        var that = this
         return document.getElementById('images').innerHTML = images.reduce(function(arc, image, index){
-            console.log(image)
             arc += `<div class="image-select">
-                      <img data-forCanvas ="${image.data}"  onload="importImagesFromSlides.loaded(this)" alt="loading" id="img-${index}" src="${image.url}" width="125">
+                      ${that.createImageElement(image, index)}
                       <div class="image-name">
-                        <input value="${image.title}" id="img-name-${index}"  type="text" placeholder="add title..." />
+                      ${that.createInputElement(image, index)} 
                       </div>
                     </div>`
           return arc;

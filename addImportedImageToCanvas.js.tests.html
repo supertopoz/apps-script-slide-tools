@@ -30,9 +30,7 @@ describe.skip("add imported images to canvas", function(done){
        
        setTimeout(function(){
          var image = document.querySelector('#img-0');
-         console.log(image);
          var src = image.src.indexOf('googleusercontent') >= 0;
-         console.log(src)
          var width = image.width;
          expect(src).to.equal(true);
          expect(width).to.equal(125);
@@ -53,7 +51,6 @@ describe.skip("add imported images to canvas", function(done){
    it("should convert an image to base64", function(done){       
        setTimeout(function(){
          var image = document.querySelector('#img-0');
-         console.log(image);
          var src = image.src
          var base64Image = addImportedImageToCanvas.getBase64(src).then(function(result){
          expect(result.indexOf('base64') >= 0).to.equal(true);
@@ -74,7 +71,6 @@ describe.skip("add imported images to canvas", function(done){
    it("should check text is added to the canvas", function(done){       
        setTimeout(function(){
          var canvasImage = canvas.toJSON().objects[1];
-         console.log(canvasImage)
          var type = canvasImage.type;
          var text = canvasImage.text;
          expect(type).to.equal('i-text');

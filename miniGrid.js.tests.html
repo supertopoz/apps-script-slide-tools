@@ -29,12 +29,11 @@ describe("Add mini grid elements to application", function(){
       var elements = document.getElementById('mini-grid-menu');
       expect(elements).to.have.length.descendant('div');
   	}) 
-    it("should check click listener is added to grid elements", function(){    
+    it.skip("should check click listener is added to grid elements", function(){    
       var event = {};
       event.target = {};
       event.target.id = '3-2-grid-select-1';
       var result = listenForEvents(event);
-      console.log(result)
       expect(result.indexOf('working') >= 0).to.equal(true);
   	})
 })

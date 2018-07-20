@@ -11,25 +11,33 @@ function updateExistingImageWithName(data) {
     try {
      var resource = {"requests": [ {"updatePageElementAltText": {"objectId": data.elementId,"description": data.description,"title": data.title}}]};     
      Slides.Presentations.batchUpdate(resource, id); 
+     return data;
     } catch (e){
      Logger.log(e)
+     return e;
     }
     
   SlidesApp.getActivePresentation().saveAndClose()  
 }
 
-function update(){
+function updateImageData(id, title, slideNumber){
   //Logger.log(dataString)
+  var title = title
+   Logger.log(title)
+  if(title === undefined) title = null;
+ 
   var data = {};
-  data.elementId = 'g3e2d2fc8e1_0_1';
+  data.elementId = id;
   data.description = dataString;
-  data.title = "boy V2"
+  data.title = title
   try{
    updateExistingImageWithName(data)
+   return data;
   } catch (e){
   Logger.log(e)
+  return e
   }
-  
+
 }
 
 //function getImageDetails (elementId) {

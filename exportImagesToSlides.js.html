@@ -1,10 +1,8 @@
 <script>
- console.log('working')
  const exportImagesToSlides = {
  
     dataURL: function(){
       var json = canvas.toJSON();
-      console.log(json);
       // Could save the JSOn elsewhere and pull it back with an id... 
       return canvas.toDataURL('image/png')
     },

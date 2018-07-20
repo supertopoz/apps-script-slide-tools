@@ -52,6 +52,7 @@ function insertImageToSlide(imageUrl, dimensions){
     Logger.log(e)
     return e;
   }
+  
 }
 
 
@@ -99,6 +100,7 @@ function getImagesFromSlide(slideNumbers) {
      image.url = element.getContentUrl();
      image.title = element.getTitle();
      image.data = element.getDescription();
+     image.id = element.getObjectId();
      images.push(image);
      image = {};
     } catch (e){

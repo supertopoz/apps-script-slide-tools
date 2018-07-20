@@ -39,7 +39,6 @@ describe("Import images from slides with menu and image section. ", function(){
     it("should empty the output when a checkbox is clicked ready for the new images");
     it("should append multiple checkboxes and labels to the dom", function(){
       var result = importImagesFromSlides.addSlideList();
-      console.log(result);
       var html = '<div class="boxes"><input type="checkbox" value="1" id="box-1"><label for="box-1">Slide 1</label></div><div class="boxes"><input type="checkbox" value="2" id="box-2"><label for="box-2">Slide 2</label></div><div class="boxes"><input type="checkbox" value="3" id="box-3"><label for="box-3">Slide 3</label></div>';
       expect(result).to.have.length(3);
       expect(result).to.have.html(html);
@@ -48,18 +47,55 @@ describe("Import images from slides with menu and image section. ", function(){
     it("should be able to append imported images to the dom as a card", function(){
       var images = ["https://lh6.googleusercontent.com/3H_2ghLnguJJ9fvj…-i2yO-tY-rYYRkJzgmJMYsPFB_-cWDxS2HrdoqBOF329X3__Y"];
       var result = importImagesFromSlides.addImagesToList(images);
-      var html = '<div class="image-select">\n                      <img  onload="importImagesFromSlides.loaded(this)" alt="loading" id="img-0" src="undefined" width="125">\n                      <div class="image-name">\n                        <input value="undefined" id="img-name-0"  type="text" placeholder="add title..." />\n                      </div>\n                    </div>'
-      console.log(result)
+      var html = '<div class="image-select">\n                      <img data-SlideImageId="undefined" data-forCanvas ="undefined" onload="importImagesFromSlides.loaded(this)" alt="loading" id="img-0" src="undefined" width="125">\n                      <div class="image-name">\n                       <input data-originalTitle="undefined" data-slideImageId="undefined" onfocusout="importImagesFromSlides.addTitleToSlideImage(this)" value="undefined" id="img-name-0" type="text" placeholder="add title..." /> \n                      </div>\n                    </div>'
     //  expect(result.length).to.equal(436);
       expect(result).to.equal(html)
     });
     it("should hide a loading gif when an image has finished loading");
-    it("should get the image title if one exists.", function(){
-    
+    it("should get the image title and ID if one exists.", function(done){
+     var result = function(data){
+       expect(data[0].title).to.equal('boy V2')
+       expect(data[0].id).to.equal('g3e2d2fc8e1_0_1')
+       done()
+     } 
+     google.script.run.withSuccessHandler(result).withFailureHandler(errorDisplay).getImagesFromSlide(['1']);
     });
-    it("should should store each images id within the card");
-    it("should add the image title to the input field");
-    it("should should add new image titles back to current images");
+    it("should add new image title back to current images",function(done){
+      var currentTitle = 'Test 1';
+      var imageSlideId = 'g3e2d2fc8e1_0_1';
+      var result = function(data){
+       expect(data.title).to.equal('Test 1');
+       expect(data.elementId).to.equal('g3e2d2fc8e1_0_1');
+       done()
+     }       
+      google.script.run.withSuccessHandler(result).withFailureHandler(errorDisplay).updateImageData(imageSlideId, currentTitle);
+      currentTitle = 'boy V2';
+      var imageSlideId = 'g3e2d2fc8e1_0_1';
+      google.script.run.withSuccessHandler(function(){return}).withFailureHandler(errorDisplay).updateImageData(imageSlideId, currentTitle);
+      // get the image again and check it worked, then change back to boy V2
+    });
+   
+    it("should check one image element has it's id attached", function(done){
+      var result = document.getElementById('img-0');
+      setTimeout(function(){
+        expect(result).to.have.id('img-0');
+        done();
+      }, 1600)
+      
+    });
+    it("should check one image element has canvas data attached", function(done){
+      var result = document.getElementById('img-0').getAttribute('data-forCanvas');
+      console.log(result)
+      setTimeout(function(){
+        expect(result).to.have.id('img-0');
+        done();
+      }, 1600)
+      
+    });
+    it("should check one image element has the slide is came from attached");
+    it("should check one image element has a title attached");
+    it("should see that any new name of an image changed in the ui is sent back to the correct slide");
+    it("should handle the case where the title is set to empty");
     
 });
 

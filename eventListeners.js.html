@@ -57,7 +57,7 @@ document.addEventListener("keydown", function(event){
 
 function deleteCanvasElement(event){
    if (event.keyCode === 8 || event.keyCode === 46){
-    if(!canvas.getActiveObject().isEditing) canvas.remove(canvas.getActiveObject())
+    if(canvas.getActiveObject() && !canvas.getActiveObject().isEditing) canvas.remove(canvas.getActiveObject())
    }
 }
 </script>

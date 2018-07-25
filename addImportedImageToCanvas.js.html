@@ -13,13 +13,16 @@ const addImportedImageToCanvas = {
    
    updateCanvasWithJSON: function (clickedImage){
      return new Promise(function(resolve, reject){
-     
+     //{"id":"g3e42b4ed63_0_6","data":"Image result for cat","title":"https://en.wiktionary.org/wiki/cat","url":"https://lh6.googleusercontent.com/41D9Lvxh1PXP78Gf3x2X8xmkeL5OPNkI_YVzRe5k0Gmzg6fFMbjXkspKpjWB94zuKeHTvwxBidGm2oVsJrTR3lpG116Dz2Yn7tNpxoaSjnhU_VyA0glNiAIAvvkVrxFW024P9YfJLRlwpX6Qt1BR"}
      var element = document.getElementById(clickedImage)    
      canvasJSON = JSON.parse(element.dataset.forcanvas);
      console.log('This is the canvas JSON:', canvasJSON)
-     if(canvasJSON.data === ''){
-       resolve('not done')
+     try {
+     JSON.parse(canvasJSON.data)
+     } catch (e){
+     resolve('not done')
      }
+
      canvas.clear();
      canvas.loadFromJSON(canvasJSON.data, canvas.renderAll.bind(canvas), function(){
        resolve('done')

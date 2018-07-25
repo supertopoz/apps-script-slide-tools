@@ -27,12 +27,11 @@ function getLeftAlign(position, dimensions, squareSize){
   var numColumns = Number(dimensions[0])
   var columnGap = (slides.getPageWidth() - (squareSize * numColumns)) / numColumns + 1
   var leftAlign = (squareSize * (Number(position)) + (columnGap * (Number(position)))) //- (columnGap/2);
-  Logger.log(typeof position)
 //  if(position === '0') return columnGap / 2
   return leftAlign + columnGap / 2
 }
 
-function insertImageToSlide(imageUrl, dimensions){
+function insertImageToSlide(imageUrl, dimensions, title, canvasJSON){
  //  Logger.log(dimensions)
   // var dimensions = [5, 3, 3]// width height position.
    var slideHeight = slides.getPageHeight();
@@ -46,7 +45,11 @@ function insertImageToSlide(imageUrl, dimensions){
   try{
    var activeSlide = slides.getSelection().getCurrentPage();
    // slide.insertImage(convertImage(imageUrl.replace('data:image/png;base64,','')), 100, 100, 200, 200);
-   activeSlide.insertImage(convertImage(imageUrl.replace('data:image/png;base64,','')), leftAlign, topAlign, squareSize , squareSize );
+   var image = activeSlide.insertImage(convertImage(imageUrl.replace('data:image/png;base64,','')), leftAlign, topAlign, squareSize , squareSize );
+   slides.saveAndClose()
+   var id = image.getObjectId();
+   Logger.log(id)
+   updateImageData(id, title, canvasJSON)
    return 'success';
   } catch(e){
     Logger.log(e)

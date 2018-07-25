@@ -69,16 +69,17 @@ const importImagesFromSlides = {
       },
     
       createImageElement : function(image, index){
-        return `<img data-SlideImageId="${image.id}" data-forCanvas ="${image.data}" onload="importImagesFromSlides.loaded(this)" alt="loading" id="img-${index}" src="${image.url}" width="125">`;
+        return `<img data-SlideImageId="${image.id}" data-forCanvas='${JSON.stringify(image)}' onload="importImagesFromSlides.loaded(this)" alt="loading" id="img-${index}" src="${image.url}" width="125">`;
       },
       
       createInputElement : function(image, index){
         var title = '';
         if(image.title) title = image.title;
-        return ` <input data-originalTitle="${image.title}" data-slideImageId="${image.id}" onfocusout="importImagesFromSlides.addTitleToSlideImage(this)" value="${image.title}" id="img-name-${index}" type="text" placeholder="add title..." />`
+        if(title === 'N/A') title = '';
+        return ` <input data-originalTitle="${image.title}" data-slideImageId="${image.id}" onfocusout="importImagesFromSlides.addTitleToSlideImage(this)" value="${title}" id="img-name-${index}" type="text" placeholder="add title..." />`
       },
     
-      addTitleToSlideImage :  function(event){        
+      addTitleToSlideImage :  function(event, slideNumber){        
         var currentTitle = event.value;
         var originalTitle = event.getAttribute('data-originalTitle');
         var imageSlideId = event.getAttribute('data-slideImageId');

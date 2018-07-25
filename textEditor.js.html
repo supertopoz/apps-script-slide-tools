@@ -39,6 +39,14 @@ function textEditor() {
       }
     },
     
+    addHiddenLabel: function (incomingText){
+       var text = new fabric.IText(incomingText[0] ,{ fontSize: 0, left: 0,top: 0});  
+       text.toObject = function() { 
+         return { originalName: incomingText[0], imageId: incomingText[1]  }
+       };
+       this.__canvas.add(text)
+    },
+    
     setObjectStyle: function(){      
       fabric.Object.prototype.set({
         transparentCorners: false,

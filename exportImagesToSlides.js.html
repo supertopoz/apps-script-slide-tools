@@ -2,9 +2,7 @@
  const exportImagesToSlides = {
  
     dataURL: function(){
-      var json = canvas.toJSON();
-      // Could save the JSOn elsewhere and pull it back with an id... 
-      return canvas.toDataURL('image/png')
+      return canvas.toDataURL('image/png');
     },
     
     error: function(e){
@@ -36,11 +34,62 @@
     getClickedSquareNumber : function (id){
       return Number(id.slice(id.lastIndexOf('-') + 1));
     },
+    
+    titles: [],
+    
+    addTextToTitles: function () {
+    
+    },
       
-    addImageAtGridLocation: function(id){    
+    getPossibleTitleText: function (){
+      var json = canvas.toJSON();
+      var titleList = [];
+      var objects = json.objects // array
+      console.log(objects)
+      objects.forEach(function(item, index){
+        //if(item.originalName) //titleList.push({"originalTitle": item.originalName})
+        if (item.type === "i-text") titleList.push({"canvasText": item.text});
+      })
+      return titleList;
+    },  
+     
+    checkIfTitleInputIsNeeded : function (titles){
+
+      var titleArr = titles.reduce(function(arc, items){
+          arc.push(...Object.values(items))
+          return arc
+        },[])
+      if(titleArr[0] === '') titleArr.shift();
+      return titleArr;
+      
+    }, 
+    
+       
+    addImageAtGridLocation: function(id){  
+      console.log("ID for insertion:", id)
       this.addLoader(id)
-      this.callGoogle().withUserObject(id).insertImageToSlide(this.dataURL(), [...this.getGridDementions(id), this.getClickedSquareNumber(id)])
+      var dataURL = this.dataURL();
+      var titles = this.getPossibleTitleText();
+      var dimensions = [...this.getGridDementions(id), this.getClickedSquareNumber(id)]
+      console.log('these are the titles:', titles)
+      var titleCheck = this.checkIfTitleInputIsNeeded(titles) 
+      // check to see if a request for a title is needed. 
+
+      if(titleCheck.length === 1){
+        console.log("This is the title check:" , titleCheck)
+        this.callGoogle().withUserObject(id).insertImageToSlide(dataURL, dimensions, titleCheck[0], JSON.stringify(canvas.toJSON()))
+      } else {
+       var title = prompt('Inserted images needed to be named please add one name');
+        if(title === ''){
+        alert('failed no text added!')
+        return
+        }
+       this.callGoogle().withUserObject(id).insertImageToSlide(dataURL, dimensions, title, JSON.stringify(canvas.toJSON()))
+      }
+      return [dataURL, titles]
     }  
+
+
  }
 </script>
 

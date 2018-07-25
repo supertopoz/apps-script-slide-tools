@@ -5,8 +5,6 @@
 
 function updateExistingImageWithName(data) {
   var slides = SlidesApp.getActivePresentation();
-  var slide = slides.getSlides()[0];
-  var page = slide.getPageElements();
   var id = slides.getId();
     try {
      var resource = {"requests": [ {"updatePageElementAltText": {"objectId": data.elementId,"description": data.description,"title": data.title}}]};     
@@ -20,19 +18,18 @@ function updateExistingImageWithName(data) {
   SlidesApp.getActivePresentation().saveAndClose()  
 }
 
-function updateImageData(id, title, slideNumber){
-  //Logger.log(dataString)
+function updateImageData(id, title, canvasJSON){
+   
   var title = title
-   Logger.log(title)
-  if(title === undefined) title = null;
+  Logger.log(canvasJSON)
+  if(title === undefined || title === '') title = 'N/A';
  
   var data = {};
   data.elementId = id;
-  data.description = dataString;
-  data.title = title
+  data.description = canvasJSON//dataString;
+  data.title = title;
   try{
-   updateExistingImageWithName(data)
-   return data;
+   return updateExistingImageWithName(data)
   } catch (e){
   Logger.log(e)
   return e

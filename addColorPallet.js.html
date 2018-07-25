@@ -2,11 +2,7 @@
 
 
 const addColorPallet = {
-        
-      app : function() {
-       return textEditor()
-      },
-                 
+              
       colors: ["white","orange","blue","green","yellow","pink","purple","black","red","yellow","brown","teal"],
       
       appendColorPallet : function(){
@@ -20,12 +16,12 @@ const addColorPallet = {
       
       changeColor: function (event){
          var color = event.target.id.replace('color-','');
-         return this.app().setTextParam('color',  color);
+         return textEditor.setTextParam('color',  color);
       },
 
       insertFreeText: function(){
-          this.app().addText('Click Me!');
-          this.app().setObjectStyle();
+          textEditor.addText('Click Me!');
+          textEditor.setObjectStyle();
       }    
 }
 

@@ -3,14 +3,39 @@ const addImportedImageToCanvas = {
 
    getText : function(clickedImage){
      var idInputElement = "img-name-"+ clickedImage.target.id.replace('img-','');
-     if(document.getElementById(idInputElement)) this.text = document.getElementById(idInputElement).value;
+     if(document.getElementById(idInputElement)) {
+     this.clickedImageId = clickedImage.target.id;
+     this.text = document.getElementById(idInputElement).value
+     
+     };
      return this.text;
+   },
+   
+   updateCanvasWithJSON: function (clickedImage){
+     return new Promise(function(resolve, reject){
+     
+     var element = document.getElementById(clickedImage)
+    
+     canvasJSON = JSON.parse(element.dataset.forcanvas);
+     if(canvasJSON === undefined){
+       resolve('done')
+     }
+     canvas.clear();
+     canvas.loadFromJSON(canvasJSON.data, canvas.renderAll.bind(canvas), function(){
+       resolve('done')
+     });
+     })
    },
 
    getImageToAdd : function(clickedImage){
-     this.getText(clickedImage);
-     this.prepareImageForCanvas(clickedImage.target.src);
-     return this.text;
+       var that = this;
+       this.updateCanvasWithJSON(clickedImage.target.id).then(function(result){
+         if(result !== 'done'){
+            that.getText(clickedImage);
+            that.prepareImageForCanvas(clickedImage.target.src);
+            return this.text;         
+         }
+       })
    }, 
    
    prepareImageForCanvas : function(src){
@@ -23,14 +48,16 @@ const addImportedImageToCanvas = {
     }, 
     
     text: '',
+    clickImageId: '',
     
     
     addImageToCanvas: function(image){ 
       var that = this;
       fabric.Image.fromURL(image.src, function(img) {    
-        img.set({ left: 0, top:0}).scale(270/image.width).applyFilters();
-        canvas.clear().add(img);        
-        textEditor.addText(that.text);
+        img.set({ left: 0, top:0,}).scale(270/image.width).applyFilters();
+        canvas.clear().add(img);  
+        textEditor.addHiddenLabel([that.text, that.clickedImageId]);
+        textEditor.addText(that.text);      
         textEditor.setObjectStyle();
       }); 
     }, 

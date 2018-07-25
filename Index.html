@@ -40,16 +40,17 @@
 		</div>
 	</div>
      <div id="mocha"></div>
+  <?!= include('textEditor.js'); ?>
   <?!= include('addColorPallet.css'); ?>
   <?!= include('addColorPallet.js'); ?>
   <?!= include('addImportedImageToCanvas.js'); ?> // Tests exist
   <?!= include('animate.js'); ?>
- 
+   <?!= include('exportImagesToSlides.js'); ?> // Tests exist
   <?!= include('errorDisplay.css'); ?>
   <?!= include('errorDisplay.js'); ?> // Tests exist
   <?!= include('eventListeners.js'); ?>
   
-  <?!= include('exportImagesToSlides.js'); ?> // Tests exist
+
 
   <?!= include('importImagesFromSlides.css'); ?>
   <?!= include('importImagesFromSlides.js'); ?>
@@ -59,15 +60,16 @@
   
   <?!= include('slideSelector.css'); ?>
   
-  <?!= include('textEditor.js'); ?>
+  
 
   
-  <!-- Tests --> 
+  <!-- Tests
   <?!= include('test.js'); ?>
-  <?!= include('exportImagesToSlides.js.tests'); ?>
+
   <?!= include('errorDisplay.js.tests'); ?>
-  <?!= include('addImportedImageToCanvas.js.tests'); ?>
   <?!= include('miniGrid.js.tests'); ?>
   <?!= include('importImagesFromSlides.js.tests'); ?>
+  <?!= include('addImportedImageToCanvas.js.tests'); ?>
+  <?!= include('exportImagesToSlides.js.tests'); ?> 
 </body>
 </html>

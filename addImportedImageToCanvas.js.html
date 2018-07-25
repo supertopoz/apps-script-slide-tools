@@ -14,11 +14,11 @@ const addImportedImageToCanvas = {
    updateCanvasWithJSON: function (clickedImage){
      return new Promise(function(resolve, reject){
      
-     var element = document.getElementById(clickedImage)
-    
+     var element = document.getElementById(clickedImage)    
      canvasJSON = JSON.parse(element.dataset.forcanvas);
-     if(canvasJSON === undefined){
-       resolve('done')
+     console.log('This is the canvas JSON:', canvasJSON)
+     if(canvasJSON.data === ''){
+       resolve('not done')
      }
      canvas.clear();
      canvas.loadFromJSON(canvasJSON.data, canvas.renderAll.bind(canvas), function(){
@@ -30,7 +30,7 @@ const addImportedImageToCanvas = {
    getImageToAdd : function(clickedImage){
        var that = this;
        this.updateCanvasWithJSON(clickedImage.target.id).then(function(result){
-         if(result !== 'done'){
+         if(result === 'not done'){
             that.getText(clickedImage);
             that.prepareImageForCanvas(clickedImage.target.src);
             return this.text;         

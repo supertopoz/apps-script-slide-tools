@@ -9,6 +9,7 @@
 //loaded
 //addImagesToList
 describe("Import images from slides with menu and image section. ", function(){
+    this.timeout(3000);
     before('get slide list', function(){
       importImagesFromSlides.getSlideCount();
     })
@@ -47,7 +48,7 @@ describe("Import images from slides with menu and image section. ", function(){
     it("should be able to append imported images to the dom as a card", function(){
       var images = ["https://lh6.googleusercontent.com/3H_2ghLnguJJ9fvj…-i2yO-tY-rYYRkJzgmJMYsPFB_-cWDxS2HrdoqBOF329X3__Y"];
       var result = importImagesFromSlides.addImagesToList(images);
-      var html = '<div class="image-select">\n                      <img data-SlideImageId="undefined" data-forCanvas ="undefined" onload="importImagesFromSlides.loaded(this)" alt="loading" id="img-0" src="undefined" width="125">\n                      <div class="image-name">\n                       <input data-originalTitle="undefined" data-slideImageId="undefined" onfocusout="importImagesFromSlides.addTitleToSlideImage(this)" value="undefined" id="img-name-0" type="text" placeholder="add title..." /> \n                      </div>\n                    </div>'
+      var html = '<div class="image-select">\n                      <img data-SlideImageId="undefined" data-forCanvas=\'"https://lh6.googleusercontent.com/3H_2ghLnguJJ9fvj…-i2yO-tY-rYYRkJzgmJMYsPFB_-cWDxS2HrdoqBOF329X3__Y"\' onload="importImagesFromSlides.loaded(this)" alt="loading" id="img-0" src="undefined" width="125">\n                      <div class="image-name">\n                       <input data-originalTitle="undefined" data-slideImageId="undefined" onfocusout="importImagesFromSlides.addTitleToSlideImage(this)" value="" id="img-name-0" type="text" placeholder="add title..." /> \n                      </div>\n                    </div>'
     //  expect(result.length).to.equal(436);
       expect(result).to.equal(html)
     });
@@ -61,10 +62,10 @@ describe("Import images from slides with menu and image section. ", function(){
      google.script.run.withSuccessHandler(result).withFailureHandler(errorDisplay).getImagesFromSlide(['1']);
     });
     it("should add new image title back to current images",function(done){
-      var currentTitle = 'Test 1';
+      var currentTitle = 'boy V2';
       var imageSlideId = 'g3e2d2fc8e1_0_1';
       var result = function(data){
-       expect(data.title).to.equal('Test 1');
+       expect(data.title).to.equal('boy V2');
        expect(data.elementId).to.equal('g3e2d2fc8e1_0_1');
        done()
      }       
@@ -80,21 +81,10 @@ describe("Import images from slides with menu and image section. ", function(){
       setTimeout(function(){
         expect(result).to.have.id('img-0');
         done();
-      }, 1600)
+      }, 1000)
       
     });
-    it("should check one image element has canvas data attached", function(done){
-      var result = document.getElementById('img-0').getAttribute('data-forCanvas');
-      console.log(result)
-      setTimeout(function(){
-        expect(result).to.have.id('img-0');
-        done();
-      }, 1600)
-      
-    });
-    it("should check one image element has the slide is came from attached");
-    it("should check one image element has a title attached");
-    it("should see that any new name of an image changed in the ui is sent back to the correct slide");
+    
     it("should handle the case where the title is set to empty");
     
 });

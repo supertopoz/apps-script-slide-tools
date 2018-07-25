@@ -6,10 +6,6 @@
   <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- Mocha Tests -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.1.2/chai.min.js"></script>
-  <?!= include('chai-dom.js'); ?>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/5.2.0/mocha.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/5.2.0/mocha.min.js"></script>
   <base target="_top">
   <?!= include('Stylesheet'); ?>
 </head>
@@ -39,7 +35,6 @@
 			<div id="mini-grid-menu"></div>
 		</div>
 	</div>
-     <div id="mocha"></div>
   <?!= include('textEditor.js'); ?>
   <?!= include('addColorPallet.css'); ?>
   <?!= include('addColorPallet.js'); ?>
@@ -60,16 +55,7 @@
   
   <?!= include('slideSelector.css'); ?>
   
-  
+  <!-- Tests -->
 
-  
-  <!-- Tests --> 
-  <?!= include('test.js'); ?>
-
-  <?!= include('errorDisplay.js.tests'); ?>
-  <?!= include('miniGrid.js.tests'); ?>
-  <?!= include('importImagesFromSlides.js.tests'); ?>
-  <?!= include('addImportedImageToCanvas.js.tests'); ?>
-    <?!= include('exportImagesToSlides.js.tests'); ?>
 </body>
 </html>

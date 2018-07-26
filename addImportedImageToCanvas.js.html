@@ -16,6 +16,7 @@ const addImportedImageToCanvas = {
      //{"id":"g3e42b4ed63_0_6","data":"Image result for cat","title":"https://en.wiktionary.org/wiki/cat","url":"https://lh6.googleusercontent.com/41D9Lvxh1PXP78Gf3x2X8xmkeL5OPNkI_YVzRe5k0Gmzg6fFMbjXkspKpjWB94zuKeHTvwxBidGm2oVsJrTR3lpG116Dz2Yn7tNpxoaSjnhU_VyA0glNiAIAvvkVrxFW024P9YfJLRlwpX6Qt1BR"}
      var element = document.getElementById(clickedImage)    
      canvasJSON = JSON.parse(element.dataset.forcanvas);
+     // how to handle the case where the user has removed the text from image, but has added new text in the input. 
      console.log('This is the canvas JSON:', canvasJSON)
      try {
      JSON.parse(canvasJSON.data)
@@ -55,11 +56,13 @@ const addImportedImageToCanvas = {
     
     
     addImageToCanvas: function(image){ 
+    console.log('**********************')
       var that = this;
       fabric.Image.fromURL(image.src, function(img) {    
         img.set({ left: 0, top:0,}).scale(270/image.width).applyFilters();
         canvas.clear().add(img);  
-        textEditor.addHiddenLabel([that.text, that.clickedImageId]);
+     //   textEditor.addHiddenLabel([that.text, that.clickedImageId]);
+         
         textEditor.addText(that.text);      
         textEditor.setObjectStyle();
       }); 

@@ -1,6 +1,6 @@
 <script>
 document.addEventListener("DOMContentLoaded", function(event) {
-
+  importImagesFromSlides.getSlideCount(); 
   canvas = new fabric.Canvas('canvas',{
   preserveObjectStacking: true,
   backgroundColor: 'white',
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   addColorPallet.appendColorPallet();  
   miniGrid.updateGrid();
   animate('slide-selector', -210, 0, 10); 
-  importImagesFromSlides.getSlideCount(); 
+  
 });
 
 

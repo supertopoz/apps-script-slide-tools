@@ -80,7 +80,8 @@
         this.callGoogle().withUserObject(id).insertImageToSlide(dataURL, dimensions, titleCheck[0], JSON.stringify(canvas.toJSON()))
       } else {
        var title = prompt('Inserted images needed to be named please add one name');
-        if(title === ''){
+       console.log(title)
+        if(title === '' || title === null){
         alert('failed no text added!')
         return
         }

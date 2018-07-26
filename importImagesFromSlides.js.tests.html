@@ -9,7 +9,7 @@
 //loaded
 //addImagesToList
 describe("Import images from slides with menu and image section. ", function(){
-    this.timeout(3000);
+//    this.timeout(2000);
     before('get slide list', function(){
       importImagesFromSlides.getSlideCount();
     })
@@ -17,9 +17,9 @@ describe("Import images from slides with menu and image section. ", function(){
       
       setTimeout(function(){
       var result = importImagesFromSlides.slideCount;
-       expect(result).to.equal(3)
-       done();
-      },1500)
+         expect(result).to.equal(2)
+         done();
+      },1000)
      
     });
     it("should create a lable for each slide in the document", function(){
@@ -40,8 +40,8 @@ describe("Import images from slides with menu and image section. ", function(){
     it("should empty the output when a checkbox is clicked ready for the new images");
     it("should append multiple checkboxes and labels to the dom", function(){
       var result = importImagesFromSlides.addSlideList();
-      var html = '<div class="boxes"><input type="checkbox" value="1" id="box-1"><label for="box-1">Slide 1</label></div><div class="boxes"><input type="checkbox" value="2" id="box-2"><label for="box-2">Slide 2</label></div><div class="boxes"><input type="checkbox" value="3" id="box-3"><label for="box-3">Slide 3</label></div>';
-      expect(result).to.have.length(3);
+      var html = '<div class="boxes"><input type="checkbox" value="1" id="box-1"><label for="box-1">Slide 1</label></div><div class="boxes"><input type="checkbox" value="2" id="box-2"><label for="box-2">Slide 2</label></div>';
+      expect(result).to.have.length(2);
       expect(result).to.have.html(html);
     });
     it("should import a single selected image as needed");
@@ -53,28 +53,25 @@ describe("Import images from slides with menu and image section. ", function(){
       expect(result).to.equal(html)
     });
     it("should hide a loading gif when an image has finished loading");
-    it("should get the image title and ID if one exists.", function(done){
-     var result = function(data){
-       expect(data[0].title).to.equal('boy V2')
-       expect(data[0].id).to.equal('g3e2d2fc8e1_0_1')
-       done()
-     } 
-     google.script.run.withSuccessHandler(result).withFailureHandler(errorDisplay).getImagesFromSlide(['1']);
-    });
-    it("should add new image title back to current images",function(done){
-      var currentTitle = 'boy V2';
-      var imageSlideId = 'g3e2d2fc8e1_0_1';
-      var result = function(data){
-       expect(data.title).to.equal('boy V2');
-       expect(data.elementId).to.equal('g3e2d2fc8e1_0_1');
-       done()
-     }       
-      google.script.run.withSuccessHandler(result).withFailureHandler(errorDisplay).updateImageData(imageSlideId, currentTitle);
-      currentTitle = 'boy V2';
-      var imageSlideId = 'g3e2d2fc8e1_0_1';
-      google.script.run.withSuccessHandler(function(){return}).withFailureHandler(errorDisplay).updateImageData(imageSlideId, currentTitle);
-      // get the image again and check it worked, then change back to boy V2
-    });
+//    it("should get the image name, slide image ID if they exist.", function(done){
+//     var result = function(data){
+//       expect(data[0].title).to.equal('boy V2')
+//       expect(data[0].id).to.equal('g3e2d2fc8e1_0_1')
+//       done()
+//     } 
+//     google.script.run.withSuccessHandler(result).withFailureHandler(errorDisplay).getImagesFromSlide(['1']);
+//    });
+    
+//    it("should add new image title back to current images when changed in input",function(done){
+//      var currentTitle = 'boy V2';
+//      var imageSlideId = 'g3e2d2fc8e1_0_1';
+//      var result = function(data){
+//       expect(data.title).to.equal('boy V2');
+//       expect(data.elementId).to.equal('g3e2d2fc8e1_0_1');
+//       done()
+//     }       
+//     google.script.run.withSuccessHandler(result).withFailureHandler(errorDisplay).updateImageData(imageSlideId, currentTitle);
+//    });
    
     it("should check one image element has it's id attached", function(done){
       var result = document.getElementById('img-0');
